@@ -1,0 +1,30 @@
+services:
+  # Define the 'etl' service
+  etl:
+    # Build the container image from the Dockerfile in the current directory
+    build:
+      context: .  # Use the current directory as the build context
+      dockerfile: Dockerfile  # Specify the Dockerfile to use
+
+    # Set a custom container name for easier reference
+    container_name: etl_container
+
+    # Define the working directory inside the container
+    working_dir: /app
+
+    # Mount the current directory to /app inside the container (useful for development)
+    volumes:
+      - .:/app  # Ensures local code changes reflect inside the container
+
+    # Map port 8000 on the host to port 8000 in the container
+    ports:
+      - "8000:8000"
+
+    # Keep the container's standard input open (useful for interactive shell access)
+    stdin_open: true
+
+    # Allocate a pseudo-TTY (useful for running interactive commands)
+    tty: true
+
+    # Override the default CMD in the Dockerfile to launch an interactive shell
+    command: ["/bin/bash"]
